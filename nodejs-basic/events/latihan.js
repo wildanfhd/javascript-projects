@@ -5,6 +5,10 @@ const { EventEmitter } = require('events');
 
 const newEmitter = new EventEmitter();
 
+console.log("\n==========================");
+console.log("USING DESTRUCTURING OBJECT");
+console.log("==========================");
+
 // Using destructuring Object to obtain the single value
 const carSearch = ({ brand, type}) => {
     console.log(`Car with the ${brand} brand and type ${type}`);
@@ -22,3 +26,25 @@ newEmitter.emit('car-search', {brand: 'BMW', type: 'Racing', price: 10000000});
 
 
 // USING Handler or Listener
+console.log("\n==========================");
+console.log("USING HANDLE OR LISTENER");
+console.log("==========================");
+
+const makeIceCream = (rasa) => {
+    console.log(`Ice Cream dengan ${rasa} telah dibuat !`);
+}
+
+const makeBill = (price) => {
+    console.log(`The bill is ${price}, please proceed to the machine`);
+}
+
+const iceCreamOrderedListener = ({rasa, price}) => {
+    makeIceCream(rasa);
+    makeBill(price);
+}
+
+const otherEmitter = new EventEmitter();
+
+otherEmitter.on('ice-cream-order', iceCreamOrderedListener);
+
+otherEmitter.emit('ice-cream-order', { rasa: 'Cookies n Cream', price: 15000 });
