@@ -1,0 +1,2 @@
+Berkas ini dibaca dengan
+method fs.readFileSync() atau dengan cara Synchronous.
