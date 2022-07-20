@@ -4,7 +4,7 @@ const http = require('http');
 // Custom callback - Untuk menangani dan menanggapi sebuah request
 const requestListener = (request, response) => {
     response.setHeader('Content-Type', 'text/html');
-    response.statusCode = 200;
+    
 
     // MEnggunakan Destructuring Object untuk mendapatkan nilai method (GET, POST, PUT, DELETE)
     const { method, url } = request;
@@ -14,14 +14,16 @@ const requestListener = (request, response) => {
 
         // GET method
         if(method === 'GET') {
+            response.statusCode = 200;
             response.end('<h1>Ini adalah homepage</h1>');
         } else { //Selain GET method
+            response.statusCode = 400;
             response.end(`<h1>Halaman tidak dapat diakses dengan ${method} request</h1>`);
         }
     } else if(url === '/about') {
-
         // (/about) GET method
         if(method === 'GET') {
+            response.statusCode = 200;
             response.end('<h1>Hola, ini adalah halaman about!</h1>');
         } else if(method === 'POST') { // (/about) POST method
             // Variabel untuk menampung buffer pada stream
@@ -37,12 +39,15 @@ const requestListener = (request, response) => {
                 // Kita mengubah variabel body yang sebelumnya menampung buffer menjadi data sebenarnya dalam bentuk string melalui perintah Buffer.concat(body).toString()
                 body = Buffer.concat(body).toString();
                 const { name } = JSON.parse(body);
+                response.statusCode = 200;
                 response.end(`<h1>Hola, ${name}! ini adalah halaman about</h1>`);
             })
         } else { // (/about) selain GET dan POST method
+            response.statusCode = 400;
             response.end(`<h1>Halaman tidak dapat diakses dengan ${method} request</h1>`)
         }
     } else { // Selain url = / atau /about
+        response.statusCode = 404;
         response.end("<h1>Halaman tidak ditemukan!</h1>");
     }
 
