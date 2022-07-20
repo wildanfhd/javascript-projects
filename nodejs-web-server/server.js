@@ -7,28 +7,43 @@ const requestListener = (request, response) => {
     response.statusCode = 200;
 
     // MEnggunakan Destructuring Object untuk mendapatkan nilai method (GET, POST, PUT, DELETE)
-    const { method } = request;
+    const { method, url } = request;
 
-    if(method === 'GET') {
-        response.end('<h1>Halo HTTP Server!</h1>');
-    }
+    // Routing Request
+    if(url === '/') {
 
-    if(method === 'POST') {
-        // Variabel untuk menampung buffer pada stream
-        let body = [];
+        // GET method
+        if(method === 'GET') {
+            response.end('<h1>Ini adalah homepage</h1>');
+        } else { //Selain GET method
+            response.end(`<h1>Halaman tidak dapat diakses dengan ${method} request</h1>`);
+        }
+    } else if(url === '/about') {
 
-        request.on('data', (chunk) => {
-            // Ketika event 'data' terjadi pada request, kita isi array body dengan chunk(potongan data) yang dibawa callback function tersebut.
-            body.push(chunk);
-        })
+        // (/about) GET method
+        if(method === 'GET') {
+            response.end('<h1>Hola, ini adalah halaman about!</h1>');
+        } else if(method === 'POST') { // (/about) POST method
+            // Variabel untuk menampung buffer pada stream
+            let body = [];
 
-        request.on('end', () => {
-            // ketika Proses stream berakhir, maka event 'end' akan terbangkitkan.
-            // Kita mengubah variabel body yang sebelumnya menampung buffer menjadi data sebenarnya dalam bentuk string melalui perintah Buffer.concat(body).toString()
-            body = Buffer.concat(body).toString();
-            const { name } = JSON.parse(body);
-            response.end(`<h1>Hola, ${name}!</h1>`);
-        })
+            request.on('data', (chunk) => {
+                // Ketika event 'data' terjadi pada request, kita isi array body dengan chunk(potongan data) yang dibawa callback function tersebut.
+                body.push(chunk);
+            })
+
+            request.on('end', () => {
+                // ketika Proses stream berakhir, maka event 'end' akan terbangkitkan.
+                // Kita mengubah variabel body yang sebelumnya menampung buffer menjadi data sebenarnya dalam bentuk string melalui perintah Buffer.concat(body).toString()
+                body = Buffer.concat(body).toString();
+                const { name } = JSON.parse(body);
+                response.end(`<h1>Hola, ${name}! ini adalah halaman about</h1>`);
+            })
+        } else { // (/about) selain GET dan POST method
+            response.end(`<h1>Halaman tidak dapat diakses dengan ${method} request</h1>`)
+        }
+    } else { // Selain url = / atau /about
+        response.end("<h1>Halaman tidak ditemukan!</h1>");
     }
 
 };
