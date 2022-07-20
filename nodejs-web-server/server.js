@@ -14,15 +14,21 @@ const requestListener = (request, response) => {
     }
 
     if(method === 'POST') {
-        response.end('<h1>Hola</h1>');
-    }
+        // Variabel untuk menampung buffer pada stream
+        let body = [];
 
-    if(method === 'PUT') {
-        response.end('<h1>AnnyeongHaseyo!</h1>');
-    }
+        request.on('data', (chunk) => {
+            // Ketika event 'data' terjadi pada request, kita isi array body dengan chunk(potongan data) yang dibawa callback function tersebut.
+            body.push(chunk);
+        })
 
-    if(method === 'DELETE') {
-        response.end('<h1>Bonjour!</h1>');
+        request.on('end', () => {
+            // ketika Proses stream berakhir, maka event 'end' akan terbangkitkan.
+            // Kita mengubah variabel body yang sebelumnya menampung buffer menjadi data sebenarnya dalam bentuk string melalui perintah Buffer.concat(body).toString()
+            body = Buffer.concat(body).toString();
+            const { name } = JSON.parse(body);
+            response.end(`<h1>Hola, ${name}!</h1>`);
+        })
     }
 
 };
