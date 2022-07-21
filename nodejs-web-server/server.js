@@ -6,7 +6,8 @@ const requestListener = (request, response) => {
     response.setHeader('Content-Type', 'text/html');
     
 
-    // MEnggunakan Destructuring Object untuk mendapatkan nilai method (GET, POST, PUT, DELETE)
+    // MEnggunakan Destructuring Object untuk mendapatkan nilai method (GET, POST, PUT, DELETE) dan
+    //  nilai url dari setiap request.
     const { method, url } = request;
 
     // Routing Request
