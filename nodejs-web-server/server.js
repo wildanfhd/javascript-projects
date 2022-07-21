@@ -18,16 +18,22 @@ const requestListener = (request, response) => {
         // GET method
         if(method === 'GET') {
             response.statusCode = 200;
-            response.end('<h1>Ini adalah homepage</h1>');
+            response.end(JSON.stringify({
+                message: 'Ini adalah homepage',
+            }));
         } else { //Selain GET method
             response.statusCode = 400;
-            response.end(`<h1>Halaman tidak dapat diakses dengan ${method} request</h1>`);
+            response.end(JSON.stringify({
+                message: `Halaman tidak dapat diakses dengan ${method} request`,
+            }));
         }
     } else if(url === '/about') {
         // (/about) GET method
         if(method === 'GET') {
             response.statusCode = 200;
-            response.end('<h1>Hola, ini adalah halaman about!</h1>');
+            response.end(JSON.stringify({
+                message: 'Hola, ini adalah halaman about!',
+            }));
         } else if(method === 'POST') { // (/about) POST method
             // Variabel untuk menampung buffer pada stream
             let body = [];
@@ -43,15 +49,21 @@ const requestListener = (request, response) => {
                 body = Buffer.concat(body).toString();
                 const { name } = JSON.parse(body);
                 response.statusCode = 200;
-                response.end(`<h1>Hola, ${name}! ini adalah halaman about</h1>`);
+                response.end(JSON.stringify({
+                    message: `Hola, ${name}! ini adalah halaman about`,
+                }));
             })
         } else { // (/about) selain GET dan POST method
             response.statusCode = 400;
-            response.end(`<h1>Halaman tidak dapat diakses dengan ${method} request</h1>`)
+            response.end(JSON.stringify({
+                message: `Halaman tidak dapat diakses dengan ${method} request`,
+            }));
         }
     } else { // Selain url = / atau /about
         response.statusCode = 404;
-        response.end("<h1>Halaman tidak ditemukan!</h1>");
+        response.end(JSON.stringify({
+            message: 'Halaman tidak ditemukan!',
+        }));
     }
 
 };
