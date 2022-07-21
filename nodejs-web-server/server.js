@@ -3,7 +3,9 @@ const http = require('http');
 
 // Custom callback - Untuk menangani dan menanggapi sebuah request
 const requestListener = (request, response) => {
-    response.setHeader('Content-Type', 'text/html');
+    // Menetapkan dan Menambahkan Header
+    response.setHeader('Content-Type', 'application/json');
+    response.setHeader('X-Powered-By', 'NodeJS');
     
 
     // MEnggunakan Destructuring Object untuk mendapatkan nilai method (GET, POST, PUT, DELETE) dan
