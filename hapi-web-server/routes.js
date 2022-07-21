@@ -33,10 +33,21 @@ const routes = [
         method: 'GET',
         path: '/hello/{name?}', // Optional Path parameter {name?} : Jika client tidak menetapkan path parameter maka name akan bernilai stranger (default value)
         handler: (request, h) => {
-            // {name?} merupakan parameter untuk path yang diisi oleh Client
+            // {name?} merupakan path parameter yang diisi oleh Client
             // parameter path tersebut nanti akan disimpan sebagai properti pada request.params.
             // untuk mengakses propertinya, kita gunakan object destructuring.
             const { name = "stranger" } = request.params;
+
+            // Query parameter - teknik yang digunakan pada permintaan yang membutuhkan query dari client, seperti pencarian dan filter data.
+            // Data yang dikirim memiliki format key=value.
+            // Nilainya bisa didapatkan melalui request.query
+            const { lang } = request.query;
+
+            if(lang === 'id') {
+                return `Hai, ${name}`;
+            }
+
+
             return `Hello, ${name}`;
         }
     },
