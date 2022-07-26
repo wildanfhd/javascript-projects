@@ -2,7 +2,7 @@ const { nanoid } = require('nanoid');
 const notes = require('./notes');
 
 const addNoteHandler = (request, h) => {
-    // Mendapatkan body request menggunakan request.payload.
+    // Mendapatkan body request yaitu properti objek notes menggunakan request.payload.
     const { title, tags, body } = request.payload;
 
     const id = nanoid(16);
