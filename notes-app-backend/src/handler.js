@@ -49,4 +49,31 @@ const getAllNotesHandler = () => ({
     },
 });
 
-module.exports = { addNoteHandler, getAllNotesHandler };
+// Handler untuk mengambil catatan berdasarkan id dari path parameter
+const getNoteByIdHandler = (request, h) => {
+    // Kita dapatkan body request yaitu id dari request.params(diambil dari path parameter)
+    const { id } = request.params;
+    
+    // Setelah mendapatkan nilai id, dapatkan objek note dengan id tersebut dari array notes
+    // Memanfaatkan method array .filter
+    const note = notes.filter((n) => n.id === id)[0];
+
+    // Memastikan bahwa notes tidak bernilai undefined
+    if(note !== undefined) {
+        return {
+            status: 'success',
+            data: {
+                note,
+            },
+        };
+    }
+
+    const response = h.response({
+        status: 'fail',
+        message: 'Catatan tidak ditemukan',
+    });
+    response.code(404);
+    return response;
+}
+
+module.exports = { addNoteHandler, getAllNotesHandler, getNoteByIdHandler };
