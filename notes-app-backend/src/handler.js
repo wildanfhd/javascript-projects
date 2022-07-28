@@ -49,4 +49,4 @@ const getAllNotesHandler = () => ({
     },
 });
 
-module.exports = { addNoteHandle, getAllNotesHandler };
+module.exports = { addNoteHandler, getAllNotesHandler };
