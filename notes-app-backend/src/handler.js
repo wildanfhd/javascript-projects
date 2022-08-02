@@ -77,13 +77,22 @@ const getNoteByIdHandler = (request, h) => {
 };
 
 const editNoteByIdHandler = (request, h) => {
+    // Mendapatkan nilai id untuk menyesuaikan id catatan dengan id yang ada di route parameter
     const { id } = request.params;
 
+    // Mengambil data notes terbaru yang dikirimkan oleh client melalui body request.
     const { title, tags, body } = request.payload;
+
+    // Memperbarui nilai properti updatedAt agar dapat kapan terakhir catatan diedit.
     const updatedAt = new Date().toISOString();
 
+    // Mendapatkan index array pada objek catatan sesuai id yang ditentukan.
+    // jika note dengan id yang dicari ditemukan,
+    // maka index akan bernilai array index dari objek catatan yang dicari
+    // , jika tidak maka index = -1
     const index = notes.findIndex((note) => note.id === id);
 
+    // Menentukan gagal atau tidaknya permintaan dari nilai index menggunakan if-else
     if (index !== 1) {
         notes[index] = {
             ...notes[index],
